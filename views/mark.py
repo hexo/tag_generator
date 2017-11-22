@@ -17,14 +17,11 @@ mark_view = Blueprint('mark', __name__)
 Mark = Object.extend('Mark')
 query = Query(Mark)
 
-@mark_view.route('')
-def show():
-    return render_template('marktag.html')
-
-
 @mark_view.route('', methods=['POST'])
 def add():
     pass
+
+# 确认图片是否已经上传成功
 @mark_view.route('/confirm', methods=['POST'])
 def mark_confirm():
     data = json.loads(request.data.decode('utf-8'))
@@ -44,6 +41,7 @@ def mark_confirm():
     })
     return response
 
+# 增加图片标记信息
 @mark_view.route('/addmark', methods=['POST'])
 def add_mark():
     data = json.loads(request.data.decode('utf-8'))
@@ -66,28 +64,4 @@ def add_mark():
         "status": 200,
     })
     return response
-
-# @mark_view.route('/adddes', methods=['POST'])
-# def add_des():
-#     data = json.loads(request.data.decode('utf-8'))
-#     name = data['name']
-#     des = data['des']
-#     des_en = data['des_en']
-#     des_content = data['des_content']
-#     query.equal_to("name", name)
-#     if query.find():
-#         mark = query.find()[0]
-#         name = mark.id
-#         cql = 'update Mark set des = ?, des_en = ?, des_content = ? where objectId = ?'
-#         result = Query.do_cloud_query(cql, des, des_en, des_content, name)
-#     else:
-#         mark = Mark(tags=None, name=name, des=des, des_en=des_en, des_content=des_content, lines=None)
-#         try:
-#             mark.save()
-#         except LeanCloudError as e:
-#             return e.error, 502
-#     response = json.dumps({
-#         "status": 200,
-#     })
-#     return response
 

@@ -28,10 +28,6 @@
                 if (!files.length)return;
                 this.createImage(files);
             },
-            // to2len: function (table) {
-            //     var
-            //
-            // }
             createImage: function (file) {
                 if (typeof FileReader === 'undefined') {
                     alert('您的浏览器不支持图片上传，请升级您的浏览器');
@@ -59,17 +55,6 @@
                     reader.readAsDataURL(file[i]);
                 }
                 func()
-                // for (var i=0; i<leng; i++) {
-                //     var info = {};
-                //     info.name = file[i].name;
-                //     vm.basic_info.push(info);
-                //     var reader = new FileReader();
-                //     reader.onload = function (e) {
-                //         reader.readAsDataURL(file[i]);
-                //         image.src = e.target.result;
-                //         vm.image_info.push(e.target.result);
-                //     };
-                // }
             },
             delImage: function (index) {
                 this.image_info.splice(index, 1);
@@ -97,17 +82,16 @@
                     var context = canvas.getContext('2d');
                     var image = new Image();
                     image.src = vm.image_info[vm.target];
-                    console.log(image.width)
+                    //console.log(image.width)
                     if(image.width>800){
                         vm.flag = 1
-                        // vm.canvas_width = image.width
                     } else{
                         vm.flag = 0
-                        // vm.canvas_width = image.width*2
                     }
                     canvas.height = vm.canvas_height;
                     canvas.width = vm.canvas_width;
                     image.onload = function() {
+                        vm.showname(vm.basic_info[vm.target].name)
                         if(vm.flag == 0){
                             context.drawImage(image, 0, 0, image.width*2, image.height*2)
                         } else {
@@ -121,19 +105,13 @@
                     canvas.onmouseup = function (e) {
                         e.preventDefault()
                         var pointx = (e.offsetX +2)*1.6
-                        // console.log(e.offsetX, e.offsetY)
-                        //var point = vm.windowtocanvas(e.clientX, e.clientY)
-                        // console.log(point)
                         var lastpoint = vm.lines[vm.lines.length-1]
                         // console.log(pointx, lastpoint)
                         if (lastpoint != pointx) {
                             vm.lines.push(pointx)
                         }
                         vm.reviewtag()
-                        //line.end = point.x
-                        // vm.line_tags.push(line)
                         vm.drawone(pointx)
-                        // console.log(vm.line_tags)
                     };
                 }
                 else {
@@ -198,19 +176,6 @@
                     context.stroke()
                     i = i+1
                 }
-                // for(var i =0;i< lines.length-1; i = i+2){
-                //     // var end = line['end']
-                //     context.moveTo(lines[i], 0)
-                //     context.lineTo(lines[i], 80)
-                //     context.lineWidth = 1
-                //     context.strokeStyle = "rgb(187, 27, 57)"
-                //     // context.stroke()
-                //     context.moveTo(lines[i+1], 0)
-                //     context.lineTo(lines[i+1], 80)
-                //     context.lineWidth = 1
-                //     context.strokeStyle = "rgb(31, 193, 21)"
-                //     context.stroke()
-                // }
             },
             drawone: function(line){
                 var vm = this
@@ -264,8 +229,6 @@
                                 dataType: "json",
                                 success: function (data) {
                                     if (data.status == 200) {
-                                        // alert('提交成功！')
-                                        // vm.showcanvas(1)
                                         vm.nextpic()
                                     }
                                 },
@@ -294,8 +257,6 @@
                                 dataType: "json",
                                 success: function (data) {
                                     if (data.status == 200) {
-                                        // alert('提交成功！')
-                                        // vm.showcanvas(1)
                                         vm.nextpic()
                                     }
                                 },
@@ -349,12 +310,6 @@
                 vm.lines.pop()
                 // console.log(this.lines)
                 vm.showcanvas(0)
-                // vm.drawbuttom(vm.lines)
-                // vm.drawtext(vm.lines)
-                // vm.showinfo()
-                // console.log(this.lines)
-                // this.drawlines(lines)
-                //this.drawlines(this.line_tags)
             },
             fetchinfo: function(name) {
                 var vm =this;
@@ -425,7 +380,10 @@
                 vm.drawbuttom(vm.lines)
                 vm.drawtext(vm.lines)
                 vm.showinfo()
-}
+            },
+            showname: function(name){
+                document.getElementById('showname').innerHTML = '当前图片名字：' + name
+            }
 
         }
     })
